@@ -8,6 +8,13 @@ module Mongoid
         index({ tags: 1 })
         scope :tagged, where({ :tags.nin => [ nil, [] ], :tags.ne => nil })
         before_save :capitalize_tags
+
+        klass = Class.new(Mongoid::TagCollectible::Tag) do
+          cattr_accessor :tagged_class
+        end
+        klass.tagged_class = self
+        klass.store_in collection: "#{self.name.underscore}_tags"
+        Object.const_set "#{self.name}Tag", klass
       end
 
       module ClassMethods
@@ -26,7 +33,7 @@ module Mongoid
       private
 
         def capitalize_tags
-          self.tags = (self.tags || []).compact.map { |tag| Mongoid::TagCollectible::Tag.capitalize(tag) }
+          self.tags = (self.tags || []).compact.map { |tag| Mongoid::TagCollectible::Util.capitalize(tag) }
         end
 
     end

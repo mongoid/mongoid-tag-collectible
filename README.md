@@ -22,26 +22,15 @@ class Thing
   include Mongoid::TagCollectible::Tagged
 end
 
-class ThingTag
-  include Mongoid::Document
-  include Mongoid::Timestamps
-  include Mongoid::Slug
-  include Mongoid::TagCollectible::Tag
-
-  tag_for Thing
-end
-
 thing1 = Thing.create!(tags: [ 'funny', 'red' ])
 thing2 = Thing.create!(tags: [ 'funny', 'yellow' ])
 
-ThingTag.rebuild!
-
-Thing.tagged # thing1 and thing2
-ThingTag.count # 3 - funny, red and yellow
+ThingTag.rebuild! # the `ThingTag` class is automatically defined
 
 funny_tag = ThingTag.where(name: 'funny').first
-funny_tag.count # 2
-funny_tag.things # thing1, thing2
+funny_tag.name # "funny"
+funny_tag.count # 2, not a database query
+funny_tag.tagged # thing1 and thing2
 ```
 
 ### Contribute
