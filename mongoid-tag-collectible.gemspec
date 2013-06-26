@@ -13,6 +13,6 @@ Gem::Specification.new do |s|
   s.homepage = "http://github.com/dblock/mongoid-tag-collectible"
   s.licenses = [ "MIT" ]
   s.summary = "Taggable objects with rollup."
-  s.add_dependency "mongoid"
+  s.add_dependency "mongoid", ">= 3.0.0"
   s.add_dependency "activesupport"
 end
