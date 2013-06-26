@@ -27,7 +27,7 @@ thing2 = Thing.create!(tags: [ 'funny', 'yellow' ])
 
 ThingTag.update! # the `ThingTag` class is automatically defined
 
-funny_tag = ThingTag.where(name: 'funny').first
+funny_tag = ThingTag.find('funny')
 funny_tag.name # "funny"
 funny_tag.count # 2, not a database query
 funny_tag.tagged # thing1 and thing2
