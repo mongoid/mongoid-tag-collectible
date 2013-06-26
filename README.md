@@ -25,7 +25,7 @@ end
 thing1 = Thing.create!(tags: [ 'funny', 'red' ])
 thing2 = Thing.create!(tags: [ 'funny', 'yellow' ])
 
-ThingTag.rebuild! # the `ThingTag` class is automatically defined
+ThingTag.update! # the `ThingTag` class is automatically defined
 
 funny_tag = ThingTag.where(name: 'funny').first
 funny_tag.name # "funny"
