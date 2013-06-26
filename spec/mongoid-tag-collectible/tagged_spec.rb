@@ -2,6 +2,11 @@ require 'spec_helper'
 
 describe Mongoid::TagCollectible::Tagged do
   let(:instance) { TestTagged.create! }
+  describe "tag_class" do
+    it "defines tag_class" do
+      instance.class.tag_class.should == TestTaggedTag
+    end
+  end
   describe "rename_tag" do
     context "doesn't match an existing tag" do
       it "is the same" do

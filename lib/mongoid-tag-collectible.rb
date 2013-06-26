@@ -1,5 +1,4 @@
 require 'mongoid'
-require 'mongoid_slug'
 require 'active_support'
 
 require 'mongoid-tag-collectible/version'

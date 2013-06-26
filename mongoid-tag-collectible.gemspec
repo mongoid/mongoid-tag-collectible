@@ -14,6 +14,5 @@ Gem::Specification.new do |s|
   s.licenses = [ "MIT" ]
   s.summary = "Taggable objects with rollup."
   s.add_dependency "mongoid"
-  s.add_dependency "mongoid_slug"
   s.add_dependency "activesupport"
 end
