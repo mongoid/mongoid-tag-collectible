@@ -33,6 +33,20 @@ funny_tag.count # 2, not a database query
 funny_tag.tagged # thing1 and thing2
 ```
 
+Tags are case-sensitive. Transform your tags in `before_validation` if you don't want this behavior.
+
+``` ruby
+class Thing
+  before_validation :downcase_tags
+
+  private
+
+  def downcase_tags
+    tags = tags.map(&:downcase)
+  end
+end
+```
+
 ### Contribute
 
 You're encouraged to contribute to this gem.

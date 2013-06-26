@@ -48,7 +48,7 @@ module Mongoid
               if (this.tags != null) {
                 this.tags.forEach(function(t) {
                   if (t != null && t != "") {
-                    emit(t.toLowerCase(), 1);
+                    emit(t, 1);
                   }
                 });
               }
@@ -66,7 +66,7 @@ module Mongoid
         tags_after = []
         tags_mapreduce = tagged_class.map_reduce(map, reduce).out(inline: true)['results']
         tags_mapreduce.each do |tag_mapreduce|
-          name = Mongoid::TagCollectible::Util.capitalize(tag_mapreduce['_id'])
+          name = tag_mapreduce['_id']
           next unless name
           tags = tags_before[name]
           count = tag_mapreduce['value'].to_i
