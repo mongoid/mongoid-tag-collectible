@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
   s.require_paths = [ "lib" ]
   s.homepage = "http://github.com/dblock/mongoid-tag-collectible"
   s.licenses = [ "MIT" ]
-  s.summary = "Taggable objects with rollup."
+  s.summary = "Easily maintain a collection of Tag instances with aggregate counts from your model's tags."
   s.add_dependency "mongoid", ">= 3.0.0"
   s.add_dependency "activesupport"
 end

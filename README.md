@@ -3,7 +3,7 @@ Mongoid::TagCollectible
 
 [![Build Status](https://travis-ci.org/dblock/mongoid-tag-collectible.png)](https://travis-ci.org/dblock/mongoid-tag-collectible)
 
-Maintain a collection of `Tag` instances with aggregate counts from your model's `tags`.
+Easily maintain a collection of `Tag` instances with aggregate counts from your model's `tags`.
 
 ### Install
 
