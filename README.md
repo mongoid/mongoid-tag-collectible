@@ -18,7 +18,6 @@ gem 'mongoid-tag-collectible'
 ``` ruby
 class Thing
   include Mongoid::Document
-  include Mongoid::Timestamps
   include Mongoid::TagCollectible::Tagged
 end
 
