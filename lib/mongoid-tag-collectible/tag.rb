@@ -40,7 +40,7 @@ module Mongoid
       end
 
       # tagging mechanisms from http://markembling.info/2010/11/using-map-reduce-in-a-mongodb-app
-      def self.rebuild!
+      def self.update!
         tags_before = self.all.group_by{ |t| t.name }
 
         map = <<-EOS

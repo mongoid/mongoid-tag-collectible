@@ -24,7 +24,7 @@ describe Mongoid::TagCollectible::Tag do
   describe "with tags" do
     it "generates a tags collection with the tag capitalized with 1 tag" do
       TestTagged.create!(tags: ['one'])
-      TestTaggedTag.rebuild!
+      TestTaggedTag.update!
       tags = TestTaggedTag.all
       tags.size.should == 1
       tags[0].name.should == "One"
@@ -33,7 +33,7 @@ describe Mongoid::TagCollectible::Tag do
     it "generates a tags collection that is not case-sensitive" do
       TestTagged.create!(tags: ['One'])
       TestTagged.create!(tags: ['one'])
-      TestTaggedTag.rebuild!
+      TestTaggedTag.update!
       tags = TestTaggedTag.all
       tags.size.should == 1
       tags[0].name.should == "One"
@@ -42,7 +42,7 @@ describe Mongoid::TagCollectible::Tag do
     it "generates a tags collection with the tag with several tags" do
       TestTagged.create!(tags: ["one"])
       TestTagged.create!(tags: ["one", "two"])
-      TestTaggedTag.rebuild!
+      TestTaggedTag.update!
       tags = TestTaggedTag.all.desc(:count)
       tags.size.should == 2
       tags[0].name.should == "One"
@@ -55,14 +55,14 @@ describe Mongoid::TagCollectible::Tag do
       instance2 = TestTagged.create!(tags: ['One'])
       instance2.reload.tags.should == ['One']
       instance1.reload.tags.should == ['One','Two']
-      TestTaggedTag.rebuild!
+      TestTaggedTag.update!
       TestTaggedTag.count.should == 2
     end
     it "deletes duplicates with the same name" do
       TestTaggedTag.create!(name: "one")
       TestTaggedTag.create!(name: "one")
       TestTagged.create!(tags: ['one'])
-      TestTaggedTag.rebuild!
+      TestTaggedTag.update!
       TestTaggedTag.count.should == 1
     end
   end
@@ -70,12 +70,12 @@ describe Mongoid::TagCollectible::Tag do
     before(:each) do
       @instance1 = TestTagged.create!(tags: ["one"])
       @instance2 = TestTagged.create!(tags: ["one", "two"])
-      TestTaggedTag.rebuild!
+      TestTaggedTag.update!
       @tags_before = TestTaggedTag.all.desc(:count)
     end
     it "increments an existing tag by 1 when a tagged instance is added" do
       TestTagged.create!(tags: ["one", "two", "three"])
-      TestTaggedTag.rebuild!
+      TestTaggedTag.update!
       tags_after = TestTaggedTag.all.desc(:count)
       tags_after.size.should == 3
       # 'one'
@@ -92,7 +92,7 @@ describe Mongoid::TagCollectible::Tag do
     end
     it "decrements an existing tag by 1 and removes tags with zero when a tagged instance is removed" do
       @instance2.destroy
-      TestTaggedTag.rebuild!
+      TestTaggedTag.update!
       tags_after = TestTaggedTag.all.desc(:count)
       tags_after.size.should == 1
       tags_after[0].id.should == @tags_before[0].id
@@ -103,28 +103,28 @@ describe Mongoid::TagCollectible::Tag do
   describe "renaming" do
     it "renames all instances of tag" do
       instance = TestTagged.create!(tags: ['One'])
-      TestTaggedTag.rebuild!
+      TestTaggedTag.update!
       TestTaggedTag.where(name: 'One').first.update_attributes!(name: 'Two')
       instance.reload.tags.should == ['Two']
       TestTaggedTag.count.should == 1
     end
     it "avoids duplicate tags when renaming to an existing tag" do
       instance = TestTagged.create!(tags: ['One', 'Two'])
-      TestTaggedTag.rebuild!
+      TestTaggedTag.update!
       TestTaggedTag.where(name: 'One').first.update_attributes!(name: 'Two')
       TestTaggedTag.count.should == 1
       instance.reload.tags.should == ['Two']
     end
-    it "preserves renamed tags when TestTaggedTag.rebuild! is called" do
+    it "preserves renamed tags when TestTaggedTag.update! is called" do
       instance1 = TestTagged.create!(tags: ['One', 'Two'])
       instance2 = TestTagged.create!(tags: ['Two'])
       instance3 = TestTagged.create!(tags: ['One'])
-      TestTaggedTag.rebuild!
+      TestTaggedTag.update!
       TestTaggedTag.where(name: 'One').first.update_attributes!(name: 'Two')
       [instance1, instance2, instance3].each{ |a| a.reload.tags.should == ['Two'] }
       TestTaggedTag.where(name: 'Two').count.should == 1
       TestTaggedTag.where(name: 'One').count.should == 0
-      TestTaggedTag.rebuild!
+      TestTaggedTag.update!
       [instance1, instance2, instance3].each{ |a| a.reload.tags.should == ['Two'] }
       TestTaggedTag.where(name: 'Two').count.should == 1
       TestTaggedTag.where(name: 'One').count.should == 0
@@ -133,11 +133,11 @@ describe Mongoid::TagCollectible::Tag do
       instance1 = TestTagged.create!(tags: ['One', 'Two'])
       instance2 = TestTagged.create!(tags: ['Two'])
       instance3 = TestTagged.create!(tags: ['One'])
-      TestTaggedTag.rebuild!
+      TestTaggedTag.update!
       two_slug = TestTaggedTag.where(name: 'Two').first.slug
       TestTaggedTag.where(name: 'One').first.update_attributes!(name: 'Two')
       TestTaggedTag.where(name: 'Two').first.slug.should == two_slug
-      TestTaggedTag.rebuild!
+      TestTaggedTag.update!
       TestTaggedTag.where(name: 'Two').first.slug.should == two_slug
     end
   end
@@ -147,7 +147,7 @@ describe Mongoid::TagCollectible::Tag do
       jimmies = 10.times.map { TestTaggedTag.create(name: 'Rustled Jimmies') }
       tag_with_shortest_slug = jimmies.min_by{ |t| t.slug.length }
       TestTaggedTag.where(name: 'Rustled Jimmies').count.should == jimmies.count
-      TestTaggedTag.rebuild!
+      TestTaggedTag.update!
       TestTaggedTag.where(name: 'Rustled Jimmies').count.should == 1
       TestTaggedTag.find(tag_with_shortest_slug.slug).should == tag_with_shortest_slug
     end
@@ -156,7 +156,7 @@ describe Mongoid::TagCollectible::Tag do
     it "returns all matching tagged instances" do
       TestTagged.create!(tags: ['One'])
       TestTagged.create!(tags: ['one'])
-      TestTaggedTag.rebuild!
+      TestTaggedTag.update!
       tag = TestTaggedTag.first
       tag.tagged.count.should == 2
       tag.tagged.each { |a| a.should be_a TestTagged }
