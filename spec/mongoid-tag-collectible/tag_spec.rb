@@ -22,6 +22,14 @@ describe Mongoid::TagCollectible::Tag do
     end
   end
   describe "with tags" do
+    it "find by id" do
+      TestTagged.create!(tags: ['one'])
+      TestTaggedTag.find(TestTaggedTag.first.id).should be_a TestTaggedTag
+    end
+    it "find by tag" do
+      TestTagged.create!(tags: ['one'])
+      TestTaggedTag.find('one').should be_a TestTaggedTag
+    end
     it "generates a tags collection that is case-sensitive" do
       TestTagged.create!(tags: ['one'])
       TestTagged.create!(tags: ['One'])

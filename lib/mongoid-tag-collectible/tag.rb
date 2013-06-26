@@ -26,12 +26,6 @@ module Mongoid
         tagged_class.remove_tag!(self[:name]) unless renaming?
       end
 
-      def check_tagged_class!
-        unless tagged_class.respond_to?(:rename_tag!)
-          raise "#{tagged_class.name} must include Mongoid::TagCollectible::Tagged"
-        end
-      end
-
       def self.find(value)
         if Moped::BSON::ObjectId.legal?(value)
           super(value)
