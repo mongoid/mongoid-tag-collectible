@@ -8,6 +8,10 @@ Mongoid::TagCollectible
 
 Easily maintain a collection of `Tag` instances with aggregate counts from your model's `tags`.
 
+### Compatibility
+
+This gem supports Mongoid3 and Mongoid4.
+
 ### Install
 
 Add `mongoid-tag-collectible` to your Gemfile.
@@ -70,15 +74,10 @@ end
 
 ### Contribute
 
-You're encouraged to contribute to this gem.
-
-* Fork this project.
-* Make changes, write tests.
-* Updated CHANGELOG.
-* Make a pull request, bonus points for topic branches.
+See [CONTRIBUTING](CONTRIBUTING.md).
 
 ### Copyright and License
 
-Copyright Daniel Doubrovkine and Contributors, Artsy Inc., 2013
+Copyright Daniel Doubrovkine and Contributors, Artsy Inc., 2013-2015
 
 [MIT License](LICENSE.md)
