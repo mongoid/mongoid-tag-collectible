@@ -1,14 +1,23 @@
 ENV['MONGOID_ENV'] = 'test'
 
-Mongoid.load! 'spec/config/mongoid.yml'
+if Mongoid::TagCollectible.mongoid3?
+  Mongoid.load! 'spec/config/mongoid3.yml'
+else
+  Mongoid.load! 'spec/config/mongoid4.yml'
+end
 
 RSpec.configure do |config|
   config.before(:all) do
     @indexes = []
     klass = TestTagged.tag_class
-    klass.index_specifications.each do |index_specification|
-      next unless index_specification.options[:unique] || index_specification.key.values.include?('2d')
-      @indexes << [klass, index_specification.key, index_specification.options]
+    if Mongoid::TagCollectible.mongoid3?
+      TestTagged.tag_class.index_options.each_pair do |name, options|
+        @indexes << [klass, name, options]
+      end
+    else
+      klass.index_specifications.each do |index_specification|
+        @indexes << [klass, index_specification.key, index_specification.options]
+      end
     end
   end
   config.before do

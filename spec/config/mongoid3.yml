@@ -1,0 +1,9 @@
+test:
+  sessions:
+    default:
+      database: mongoid-tag-collectible
+      hosts:
+        - localhost:27017
+      options:
+        raise_not_found_error: false
+        safe: true
