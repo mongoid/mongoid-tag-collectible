@@ -22,13 +22,24 @@ module Mongoid
       end
 
       module ClassMethods
-        def rename_tag!(old_tag, new_tag)
-          collection.where(tags: old_tag).update({ '$addToSet' => { tags: new_tag } }, multi: true)
-          self.remove_tag!(old_tag)
-        end
+        if Mongoid::TagCollectible.mongoid3? || Mongoid::TagCollectible.mongoid4?
+          def rename_tag!(old_tag, new_tag)
+            collection.where(tags: old_tag).update({ '$addToSet' => { tags: new_tag } }, multi: true)
+            self.remove_tag!(old_tag)
+          end
 
-        def remove_tag!(tag_name)
-          collection.where(tags: tag_name).update({ '$pull' => { tags: tag_name } }, multi: true)
+          def remove_tag!(tag_name)
+            collection.where(tags: tag_name).update({ '$pull' => { tags: tag_name } }, multi: true)
+          end
+        else
+          def rename_tag!(old_tag, new_tag)
+            collection.find(tags: old_tag).update_many({ '$addToSet' => { tags: new_tag } })
+            self.remove_tag!(old_tag)
+          end
+
+          def remove_tag!(tag_name)
+            collection.find(tags: tag_name).update_many({ '$pull' => { tags: tag_name } })
+          end
         end
       end
 
@@ -41,21 +52,32 @@ module Mongoid
         # added tags
         (after - before).each do |tag|
           next unless tag && tag.length > 0
-          tag_class.collection.find(
-            name: tag,
-            _type: tag_class.name
-          ).upsert(
-            '$inc' => { count: 1 }
-          )
+          _update_tag!(tag, 1)
         end
         # removed tags
         (before - after).each do |tag|
           next unless tag && tag.length > 0
+          _update_tag!(tag, -1)
+        end
+      end
+
+      if Mongoid::TagCollectible.mongoid3? || Mongoid::TagCollectible.mongoid4?
+        def _update_tag!(tag, count)
           tag_class.collection.find(
             name: tag,
             _type: tag_class.name
           ).upsert(
-            '$inc' => { count: -1 }
+            '$inc' => { count: count }
+          )
+        end
+      else
+        def _update_tag!(tag, count)
+          tag_class.collection.find(
+            name: tag,
+            _type: tag_class.name
+          ).update_one(
+            { '$inc' => { count: count } },
+            upsert: true
           )
         end
       end
@@ -63,12 +85,7 @@ module Mongoid
       def _destroy_tags!
         tags.each do |tag|
           next unless tag && tag.length > 0
-          tag_class.collection.find(
-            name: tag,
-            _type: tag_class.name
-          ).upsert(
-            '$inc' => { count: -1 }
-          )
+          _update_tag!(tag, -1)
         end
       end
     end
