@@ -16,12 +16,12 @@ class Thing
   private
 
   def downcase_tags
-    tags = tags.map(&:downcase) if tags
+    tags.map(&:downcase) if tags
   end
 end
 
-thing1 = Thing.create!(tags: [ 'funny', 'red' ])
-thing2 = Thing.create!(tags: [ 'funny', 'yellow' ])
+Thing.create!(tags: %w(funny red))
+Thing.create!(tags: %w(funny yellow))
 
 funny_tag = ThingTag.where(name: 'funny').first
 puts funny_tag.name # funny
@@ -30,7 +30,7 @@ p funny_tag.tagged.to_a # thing1 and thing2
 
 # rename a tag
 ThingTag.find('funny').update_attributes!(name: 'sad')
-p Thing.first.tags # [ 'sad', 'red' ]
+p Thing.first.tags # [ 'red', 'sad' ]
 
 # delete a tag
 ThingTag.find('red').destroy

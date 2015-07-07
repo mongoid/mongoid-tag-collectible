@@ -1,51 +1,54 @@
 module Mongoid
   module TagCollectible
-    class Tag
-      include Mongoid::Document
-      include Mongoid::Timestamps
+    module Tag
+      extend ActiveSupport::Concern
 
-      field :name, type: String
-      index({ name: 1 }, { unique: true })
+      included do
+        include Mongoid::Document
+        include Mongoid::Timestamps
 
-      field :count, type: Integer, default: 0
-      index({ count: -1 })
+        field :name, type: String
+        index({ name: 1 }, unique: true)
 
-      before_destroy :_remove_tags!
-      before_update :_rename_tag!
-      attr_accessor :renaming
+        field :count, type: Integer, default: 0
+        index(count: -1)
 
-      def renaming?
-        !! renaming
-      end
+        before_destroy :_remove_tags!
+        before_update :_rename_tag!
+        attr_accessor :renaming
 
-      def tagged
-        tagged_class.where(tags: self.name)
-      end
-
-      def _remove_tags!
-        tagged_class.remove_tag!(self[:name]) unless renaming?
-      end
-
-      def self.find(value)
-        if Moped::BSON::ObjectId.legal?(value)
-          super(value)
-        else
-          where(name: value).first
+        def renaming?
+          !!renaming
         end
-      end
 
-      private
+        def tagged
+          tagged_class.where(tags: name)
+        end
 
-      def _rename_tag!
-        if ! new_record? && name_changed?
-          self.class.where(name: name).each do |tag|
-            tag.renaming = true
-            tag.destroy
+        def _remove_tags!
+          tagged_class.remove_tag!(self[:name]) unless renaming?
+        end
+
+        def self.find(value)
+          if BSON::ObjectId.legal?(value)
+            super(value)
+          else
+            where(name: value).first
           end
-          tagged_class.rename_tag!(name_was, name)
+        end
+
+        private
+
+        def _rename_tag!
+          if !new_record? && name_changed?
+            self.class.where(name: name).each do |tag|
+              tag.renaming = true
+              tag.destroy
+            end
+            tagged_class.rename_tag!(name_was, name)
+          end
         end
       end
-
     end
   end
 end

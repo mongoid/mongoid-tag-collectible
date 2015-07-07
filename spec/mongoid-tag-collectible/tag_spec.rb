@@ -2,125 +2,125 @@
 require 'spec_helper'
 
 describe Mongoid::TagCollectible::Tag do
-  describe "tag" do
-    it "stores tags in a collection name defined by the class" do
-      TestTaggedTag.collection.name.should == "test_tagged_tags"
+  describe 'tag' do
+    it 'stores tags in a collection name defined by the class' do
+      expect(TestTaggedTag.collection.name).to eq('test_tagged_tags')
     end
   end
-  describe "without tags" do
+  describe 'without tags' do
     it "generates no entries in 'tags' when tags is nil" do
       TestTagged.create!
-      TestTaggedTag.all.size.should == 0
+      expect(TestTaggedTag.all.size).to eq(0)
     end
     it "generates no entries in 'tags' when tags is empty" do
       TestTagged.create!(tags: [])
-      TestTaggedTag.all.size.should == 0
+      expect(TestTaggedTag.all.size).to eq(0)
     end
     it "generates no entries in 'tags' when tags contains an empty or nil value" do
-      TestTagged.create!(tags: ["", nil])
-      TestTaggedTag.all.size.should == 0
+      TestTagged.create!(tags: ['', nil])
+      expect(TestTaggedTag.all.size).to eq(0)
     end
   end
-  describe "with tags" do
-    it "find by id" do
+  describe 'with tags' do
+    it 'find by id' do
       TestTagged.create!(tags: ['one'])
-      TestTaggedTag.find(TestTaggedTag.first.id).should be_a TestTaggedTag
+      expect(TestTaggedTag.find(TestTaggedTag.first.id)).to be_a TestTaggedTag
     end
-    it "find by tag" do
+    it 'find by tag' do
       TestTagged.create!(tags: ['one'])
-      TestTaggedTag.find('one').should be_a TestTaggedTag
+      expect(TestTaggedTag.find('one')).to be_a TestTaggedTag
     end
-    it "generates a tags collection that is case-sensitive" do
+    it 'generates a tags collection that is case-sensitive' do
       TestTagged.create!(tags: ['one'])
       TestTagged.create!(tags: ['One'])
-      TestTagged.create!(name: "whatever")
-      TestTaggedTag.count.should == 2
+      TestTagged.create!(name: 'whatever')
+      expect(TestTaggedTag.count).to eq(2)
     end
-    it "generates a tags collection with the tag with several tags" do
-      TestTagged.create!(tags: ["one"])
-      TestTagged.create!(tags: ["one", "two"])
+    it 'generates a tags collection with the tag with several tags' do
+      TestTagged.create!(tags: ['one'])
+      TestTagged.create!(tags: %w(one two))
       tags = TestTaggedTag.all.desc(:count)
-      tags.size.should == 2
-      tags[0].name.should == "one"
-      tags[0].count.should == 2
-      tags[1].name.should == "two"
-      tags[1].count.should == 1
+      expect(tags.size).to eq(2)
+      expect(tags[0].name).to eq('one')
+      expect(tags[0].count).to eq(2)
+      expect(tags[1].name).to eq('two')
+      expect(tags[1].count).to eq(1)
     end
-    it "prevents duplicates" do
-      TestTaggedTag.create!(name: "one")
-      expect { TestTaggedTag.create!(name: "one") }.to raise_error Moped::Errors::OperationFailure, /duplicate key error/
+    it 'prevents duplicates' do
+      TestTaggedTag.create!(name: 'one')
+      expect { TestTaggedTag.create!(name: 'one') }.to raise_error Moped::Errors::OperationFailure, /duplicate key error/
     end
   end
-  describe "incrementally" do
+  describe 'incrementally' do
     before(:each) do
-      @instance1 = TestTagged.create!(tags: ["one"])
-      @instance2 = TestTagged.create!(tags: ["one", "two"])
+      @instance1 = TestTagged.create!(tags: ['one'])
+      @instance2 = TestTagged.create!(tags: %w(one two))
       @tags_before = TestTaggedTag.all.desc(:count)
     end
-    it "increments an existing tag by 1 when a tagged instance is added" do
-      TestTagged.create!(tags: ["one", "two", "three"])
+    it 'increments an existing tag by 1 when a tagged instance is added' do
+      TestTagged.create!(tags: %w(one two three))
       tags_after = TestTaggedTag.all.desc(:count)
-      tags_after.size.should == 3
+      expect(tags_after.size).to eq(3)
       # 'one'
-      tags_after[0].id.should == @tags_before[0].id
-      tags_after[0].name.should == "one"
-      tags_after[0].count.should == 3
+      expect(tags_after[0].id).to eq(@tags_before[0].id)
+      expect(tags_after[0].name).to eq('one')
+      expect(tags_after[0].count).to eq(3)
       # 'two'
-      tags_after[1].id.should == @tags_before[1].id
-      tags_after[1].name.should == "two"
-      tags_after[1].count.should == 2
+      expect(tags_after[1].id).to eq(@tags_before[1].id)
+      expect(tags_after[1].name).to eq('two')
+      expect(tags_after[1].count).to eq(2)
       # 'three'
-      tags_after[2].name.should == "three"
-      tags_after[2].count.should == 1
+      expect(tags_after[2].name).to eq('three')
+      expect(tags_after[2].count).to eq(1)
     end
-    it "decrements an existing tag by 1 and removes tags with zero when a tagged instance is removed" do
+    it 'decrements an existing tag by 1 and removes tags with zero when a tagged instance is removed' do
       @instance2.destroy
       tags_after = TestTaggedTag.all.desc(:count)
-      tags_after.size.should == 2
-      tags_after[0].id.should == @tags_before[0].id
-      tags_after[0].name.should == "one"
-      tags_after[0].count.should == 1
-      tags_after[1].id.should == @tags_before[1].id
-      tags_after[1].name.should == "two"
-      tags_after[1].count.should == 0
+      expect(tags_after.size).to eq(2)
+      expect(tags_after[0].id).to eq(@tags_before[0].id)
+      expect(tags_after[0].name).to eq('one')
+      expect(tags_after[0].count).to eq(1)
+      expect(tags_after[1].id).to eq(@tags_before[1].id)
+      expect(tags_after[1].name).to eq('two')
+      expect(tags_after[1].count).to eq(0)
     end
   end
-  describe "renaming" do
-    it "renames all instances of tag" do
+  describe 'renaming' do
+    it 'renames all instances of tag' do
       instance = TestTagged.create!(tags: ['one'])
       TestTaggedTag.where(name: 'one').first.update_attributes!(name: 'two')
-      instance.reload.tags.should == ['two']
-      TestTaggedTag.count.should == 1
+      expect(instance.reload.tags).to eq(['two'])
+      expect(TestTaggedTag.count).to eq(1)
     end
-    it "avoids duplicate tags when renaming to an existing tag" do
-      instance = TestTagged.create!(tags: ['one', 'two'])
+    it 'avoids duplicate tags when renaming to an existing tag' do
+      instance = TestTagged.create!(tags: %w(one two))
       TestTaggedTag.where(name: 'one').first.update_attributes!(name: 'two')
-      TestTaggedTag.count.should == 1
-      instance.reload.tags.should == ['two']
+      expect(TestTaggedTag.count).to eq(1)
+      expect(instance.reload.tags).to eq(['two'])
     end
-    it "preserves renamed tags when TestTaggedTag.update! is called" do
-      instance1 = TestTagged.create!(tags: ['one', 'two'])
+    it 'preserves renamed tags when TestTaggedTag.update! is called' do
+      instance1 = TestTagged.create!(tags: %w(one two))
       instance2 = TestTagged.create!(tags: ['two'])
       instance3 = TestTagged.create!(tags: ['one'])
       TestTaggedTag.where(name: 'one').first.update_attributes!(name: 'two')
-      [instance1, instance2, instance3].each{ |a| a.reload.tags.should == ['two'] }
-      TestTaggedTag.where(name: 'two').count.should == 1
-      TestTaggedTag.where(name: 'one').count.should == 0
-      [instance1, instance2, instance3].each{ |a| a.reload.tags.should == ['two'] }
-      TestTaggedTag.where(name: 'two').count.should == 1
-      TestTaggedTag.where(name: 'one').count.should == 0
+      [instance1, instance2, instance3].each { |a| expect(a.reload.tags).to eq(['two']) }
+      expect(TestTaggedTag.where(name: 'two').count).to eq(1)
+      expect(TestTaggedTag.where(name: 'one').count).to eq(0)
+      [instance1, instance2, instance3].each { |a| expect(a.reload.tags).to eq(['two']) }
+      expect(TestTaggedTag.where(name: 'two').count).to eq(1)
+      expect(TestTaggedTag.where(name: 'one').count).to eq(0)
     end
   end
-  describe "instances" do
-    it "returns all matching tagged instances" do
+  describe 'instances' do
+    it 'returns all matching tagged instances' do
       TestTagged.create!(tags: ['one'])
       TestTagged.create!(tags: ['one'])
       tag = TestTaggedTag.first
-      tag.tagged.count.should == 2
-      tag.tagged.each { |a| a.should be_a TestTagged }
+      expect(tag.tagged.count).to eq(2)
+      tag.tagged.each { |a| expect(a).to be_a TestTagged }
     end
-    it "returns a non-nil result if there are no matching tagged instances" do
-      TestTaggedTag.new.tagged.count.should == 0
+    it 'returns a non-nil result if there are no matching tagged instances' do
+      expect(TestTaggedTag.new.tagged.count).to eq(0)
     end
   end
 end
