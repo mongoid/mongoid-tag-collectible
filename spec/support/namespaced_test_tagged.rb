@@ -1,4 +1,4 @@
-module Namespaced
+module TestTaggedNamespace
   class TestTagged
     include Mongoid::Document
     include Mongoid::Timestamps

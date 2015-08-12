@@ -17,7 +17,8 @@ module Mongoid
         end
         klass.tagged_class = self
         klass.store_in collection: "#{name.underscore.gsub('/', '_')}_tags"
-        mod_name = "::#{name}".gsub("::#{name.demodulize}", '')
+        parts = name.split('::')
+        mod_name = parts[0..-2].join('::')
         mod_name = 'Object' if mod_name.blank?
         mod_name.constantize.const_set "#{name}Tag".demodulize, klass
         self.tag_class = "#{name}Tag".constantize

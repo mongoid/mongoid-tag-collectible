@@ -1,10 +1,10 @@
 require 'spec_helper'
 
 describe Mongoid::TagCollectible::Tagged do
-  let(:instance) { Namespaced::TestTagged.create! }
+  let(:instance) { TestTaggedNamespace::TestTagged.create! }
   describe 'tag_class' do
     it 'defines tag_class' do
-      expect(instance.class.tag_class).to eq(Namespaced::TestTaggedTag)
+      expect(instance.class.tag_class).to eq(TestTaggedNamespace::TestTaggedTag)
     end
   end
   describe 'rename_tag' do
