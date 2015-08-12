@@ -1,3 +1,7 @@
+### 0.2.1 (Next)
+
+* Your contribution here.
+
 ### 0.2.0 (08/12/2015)
 
 * Implemented RuboCop, Ruby-style linter - [@dblock](https://github.com/dblock).
