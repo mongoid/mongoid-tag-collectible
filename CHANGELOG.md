@@ -1,4 +1,8 @@
-### 0.2.1 (Next)
+### 0.2.2 (Next)
+
+* Your contribution here.
+
+### 0.2.1 (08/12/2015)
 
 * Fix: support for namespaced classes with name repeated in module name - [@dblock](https://github.com/dblock).
 
