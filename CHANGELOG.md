@@ -1,4 +1,4 @@
-### Next
+### 0.2.0 (08/12/2015)
 
 * Implemented RuboCop, Ruby-style linter - [@dblock](https://github.com/dblock).
 * Added support for Mongoid 4 and Mongoid 5 Beta - [@dblock](https://github.com/dblock).
