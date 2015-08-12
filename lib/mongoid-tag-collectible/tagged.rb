@@ -16,8 +16,10 @@ module Mongoid
           cattr_accessor :tagged_class
         end
         klass.tagged_class = self
-        klass.store_in collection: "#{name.underscore}_tags"
-        Object.const_set "#{name}Tag", klass
+        klass.store_in collection: "#{name.underscore.gsub('/', '_')}_tags"
+        mod_name = "::#{name}".gsub("::#{name.demodulize}", '')
+        mod_name = 'Object' if mod_name.blank?
+        mod_name.constantize.const_set "#{name}Tag".demodulize, klass
         self.tag_class = "#{name}Tag".constantize
       end
 
