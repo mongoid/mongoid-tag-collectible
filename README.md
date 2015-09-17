@@ -10,7 +10,7 @@ Easily maintain a collection of `Tag` instances with aggregate counts from your 
 
 ### Compatibility
 
-This gem supports Mongoid 3, Mongoid 4 and Mongoid 5 RC0.
+This gem supports Mongoid 3, Mongoid 4 and Mongoid 5.
 
 ### Install
 
