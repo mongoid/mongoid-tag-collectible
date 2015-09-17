@@ -25,7 +25,7 @@ module Mongoid
       end
 
       module ClassMethods
-        if Mongoid::TagCollectible.mongoid3? || Mongoid::TagCollectible.mongoid4?
+        if Mongoid::Compatibility::Version.mongoid3? || Mongoid::Compatibility::Version.mongoid4?
           def rename_tag!(old_tag, new_tag)
             collection.where(tags: old_tag).update({ '$addToSet' => { tags: new_tag } }, multi: true)
             self.remove_tag!(old_tag)
@@ -64,7 +64,7 @@ module Mongoid
         end
       end
 
-      if Mongoid::TagCollectible.mongoid3? || Mongoid::TagCollectible.mongoid4?
+      if Mongoid::Compatibility::Version.mongoid3? || Mongoid::Compatibility::Version.mongoid4?
         def _update_tag!(tag, count)
           tag_class.collection.find(
             name: tag,

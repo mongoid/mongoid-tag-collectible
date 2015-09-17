@@ -36,7 +36,7 @@ p Thing.first.tags # [ 'red', 'sad' ]
 ThingTag.find('red').destroy
 p Thing.first.tags # [ 'sad' ]
 
-if Mongoid::TagCollectible.mongoid3? || Mongoid::TagCollectible.mongoid4?
+if Mongoid::Compatibility::Version.mongoid3? || Mongoid::Compatibility::Version.mongoid4?
   Mongoid.default_session.drop
 else
   Mongoid::Clients.default.database.drop

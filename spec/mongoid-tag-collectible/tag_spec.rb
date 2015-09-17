@@ -48,7 +48,7 @@ describe Mongoid::TagCollectible::Tag do
     end
     it 'prevents duplicates' do
       TestTaggedTag.create!(name: 'one')
-      if Mongoid::TagCollectible.mongoid3? || Mongoid::TagCollectible.mongoid4?
+      if Mongoid::Compatibility::Version.mongoid3? || Mongoid::Compatibility::Version.mongoid4?
         expect { TestTaggedTag.create!(name: 'one') }.to raise_error Moped::Errors::OperationFailure, /duplicate key error/
       else
         expect { TestTaggedTag.create!(name: 'one') }.to raise_error Mongo::Error::OperationFailure, /duplicate key error/

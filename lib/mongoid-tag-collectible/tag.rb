@@ -30,7 +30,7 @@ module Mongoid
         end
 
         def self.find(value)
-          if Mongoid::TagCollectible.object_id?(value)
+          if Mongoid::Compatibility::ObjectId.legal?(value)
             super(value)
           else
             where(name: value).first

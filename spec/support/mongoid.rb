@@ -1,8 +1,8 @@
 ENV['MONGOID_ENV'] = 'test'
 
-if Mongoid::TagCollectible.mongoid3?
+if Mongoid::Compatibility::Version.mongoid3?
   Mongoid.load! 'spec/config/mongoid3.yml'
-elsif Mongoid::TagCollectible.mongoid4?
+elsif Mongoid::Compatibility::Version.mongoid4?
   Mongoid.load! 'spec/config/mongoid4.yml'
 else
   Mongoid.load! 'spec/config/mongoid5.yml'
@@ -12,7 +12,7 @@ RSpec.configure do |config|
   config.before(:all) do
     @indexes = []
     klass = TestTagged.tag_class
-    if Mongoid::TagCollectible.mongoid3?
+    if Mongoid::Compatibility::Version.mongoid3?
       TestTagged.tag_class.index_options.each_pair do |name, options|
         @indexes << [klass, name, options]
       end
@@ -25,7 +25,7 @@ RSpec.configure do |config|
   config.before do
     Mongoid.purge!
     @indexes.each do |klass, name, options|
-      if Mongoid::TagCollectible.mongoid3? || Mongoid::TagCollectible.mongoid4?
+      if Mongoid::Compatibility::Version.mongoid3? || Mongoid::Compatibility::Version.mongoid4?
         klass.collection.indexes.create(name, options)
       else
         klass.collection.indexes.create_one(name, options)
@@ -33,7 +33,7 @@ RSpec.configure do |config|
     end
   end
   config.after(:all) do
-    if Mongoid::TagCollectible.mongoid3? || Mongoid::TagCollectible.mongoid4?
+    if Mongoid::Compatibility::Version.mongoid3? || Mongoid::Compatibility::Version.mongoid4?
       Mongoid.default_session.drop
     else
       Mongoid::Clients.default.database.drop

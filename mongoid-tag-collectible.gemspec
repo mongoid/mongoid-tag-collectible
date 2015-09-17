@@ -14,5 +14,6 @@ Gem::Specification.new do |s|
   s.licenses = ['MIT']
   s.summary = "Easily maintain a collection of Tag instances with aggregate counts from your model's tags."
   s.add_dependency 'mongoid', '>= 3.0.0'
+  s.add_dependency 'mongoid-compatibility'
   s.add_dependency 'activesupport'
 end
