@@ -1,16 +1,16 @@
 Contributing to Mongoid-Tag-Collectible
 =======================================
 
-Mongoid-Tag-Collectible is work of [many of contributors](https://github.com/dblock/mongoid-tag-collectible/graphs/contributors). You're encouraged to submit [pull requests](https://github.com/dblock/mongoid-tag-collectible/pulls), [propose features, ask questions and discuss issues](https://github.com/dblock/mongoid-tag-collectible/issues).
+Mongoid-Tag-Collectible is work of [many of contributors](https://github.com/mongoid/mongoid-tag-collectible/graphs/contributors). You're encouraged to submit [pull requests](https://github.com/mongoid/mongoid-tag-collectible/pulls), [propose features, ask questions and discuss issues](https://github.com/mongoid/mongoid-tag-collectible/issues).
 
 #### Fork the Project
 
-Fork the [project on Github](https://github.com/dblock/mongoid-tag-collectible) and check out your copy.
+Fork the [project on Github](https://github.com/mongoid/mongoid-tag-collectible) and check out your copy.
 
 ```
 git clone https://github.com/contributor/mongoid-tag-collectible.git
 cd mongoid-tag-collectible
-git remote add upstream https://github.com/dblock/mongoid-tag-collectible.git
+git remote add upstream https://github.com/mongoid/mongoid-tag-collectible.git
 ```
 
 #### Create a Topic Branch
@@ -95,7 +95,7 @@ git push origin my-feature-branch -f
 Update the [CHANGELOG](CHANGELOG.md) with the pull request number. A typical entry looks as follows.
 
 ```
-* [#123](https://github.com/dblock/mongoid-tag-collectible/pull/123): Reticulated splines - [@contributor](https://github.com/contributor).
+* [#123](https://github.com/mongoid/mongoid-tag-collectible/pull/123): Reticulated splines - [@contributor](https://github.com/contributor).
 ```
 
 Amend your previous commit and force push the changes.

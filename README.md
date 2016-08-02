@@ -2,9 +2,9 @@ Mongoid::TagCollectible
 =======================
 
 [![Gem Version](http://img.shields.io/gem/v/mongoid-tag-collectible.svg)](http://badge.fury.io/rb/mongoid-tag-collectible)
-[![Build Status](http://img.shields.io/travis/dblock/mongoid-tag-collectible.svg)](https://travis-ci.org/dblock/mongoid-tag-collectible)
-[![Dependency Status](https://gemnasium.com/dblock/mongoid-tag-collectible.svg)](https://gemnasium.com/dblock/mongoid-tag-collectible)
-[![Code Climate](https://codeclimate.com/github/dblock/mongoid-tag-collectible.svg)](https://codeclimate.com/github/dblock/mongoid-tag-collectible)
+[![Build Status](http://img.shields.io/travis/mongoid/mongoid-tag-collectible.svg)](https://travis-ci.org/mongoid/mongoid-tag-collectible)
+[![Dependency Status](https://gemnasium.com/mongoid/mongoid-tag-collectible.svg)](https://gemnasium.com/mongoid/mongoid-tag-collectible)
+[![Code Climate](https://codeclimate.com/github/mongoid/mongoid-tag-collectible.svg)](https://codeclimate.com/github/mongoid/mongoid-tag-collectible)
 
 Easily maintain a collection of `Tag` instances with aggregate counts from your model's `tags`.
 

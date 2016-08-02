@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = '>= 1.3.6'
   s.files = `git ls-files`.split("\n")
   s.require_paths = ['lib']
-  s.homepage = 'http://github.com/dblock/mongoid-tag-collectible'
+  s.homepage = 'http://github.com/mongoid/mongoid-tag-collectible'
   s.licenses = ['MIT']
   s.summary = "Easily maintain a collection of Tag instances with aggregate counts from your model's tags."
   s.add_dependency 'mongoid', '>= 3.0.0'
