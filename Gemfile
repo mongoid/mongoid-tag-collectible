@@ -13,11 +13,8 @@ else
   gem 'mongoid', version
 end
 
-group :test do
+group :development, :test do
   gem 'rspec'
-end
-
-group :development do
   gem 'rake'
   gem 'rubocop', '0.32.1'
 end
