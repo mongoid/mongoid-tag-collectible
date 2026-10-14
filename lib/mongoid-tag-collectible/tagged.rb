@@ -48,10 +48,15 @@ module Mongoid
 
       private
 
+      def _saved_tag_changes
+        tag_changes = Mongoid::VERSION.to_i >= 8 ? previous_changes['tags'] : changes['tags']
+        tag_changes && tag_changes.map { |tags| tags || [] }
+      end
+
       def _update_tags!
-        return unless tags_changed?
-        before = (tags_was || [])
-        after = (tags || [])
+        tag_changes = _saved_tag_changes
+        return unless tag_changes
+        before, after = tag_changes
         # added tags
         (after - before).each do |tag|
           next unless tag && tag.length > 0

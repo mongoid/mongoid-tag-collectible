@@ -2,15 +2,16 @@ Mongoid::TagCollectible
 =======================
 
 [![Gem Version](http://img.shields.io/gem/v/mongoid-tag-collectible.svg)](http://badge.fury.io/rb/mongoid-tag-collectible)
-[![Build Status](http://img.shields.io/travis/mongoid/mongoid-tag-collectible.svg)](https://travis-ci.org/mongoid/mongoid-tag-collectible)
-[![Dependency Status](https://gemnasium.com/mongoid/mongoid-tag-collectible.svg)](https://gemnasium.com/mongoid/mongoid-tag-collectible)
-[![Code Climate](https://codeclimate.com/github/mongoid/mongoid-tag-collectible.svg)](https://codeclimate.com/github/mongoid/mongoid-tag-collectible)
+[![Test](https://github.com/mongoid/mongoid-tag-collectible/actions/workflows/test.yml/badge.svg?branch=master)](https://github.com/mongoid/mongoid-tag-collectible/actions/workflows/test.yml?query=branch%3Amaster)
+[![Coverage Status](https://coveralls.io/repos/github/mongoid/mongoid-tag-collectible/badge.svg?branch=master)](https://coveralls.io/github/mongoid/mongoid-tag-collectible?branch=master)
+
+The Ruby 4.0 CI job measures library line coverage with SimpleCov and submits `coverage/.resultset.json` to Coveralls using GitHub's automatic token. Other matrix jobs do not submit duplicate reports. Run `COVERAGE=true bundle install` followed by `COVERAGE=true bundle exec rake spec` for a local report. The default-branch badge requires Coveralls to accept an upstream `master` build; configuring this workflow does not activate the external service.
 
 Easily maintain a collection of `Tag` instances with aggregate counts from your model's `tags`.
 
 ### Compatibility
 
-This gem supports Mongoid 3, Mongoid 4 and Mongoid 5.
+CI tests representative compatible combinations of Mongoid 3 through 9, Ruby 2.3 through 4.0, and MongoDB Server 2.6 through 8.0, including Ruby 4.0 / Mongoid 9 / MongoDB 8.0. See [the test matrix](.github/workflows/test.yml); this is not a Cartesian product of supported versions. Mongoid 3–4 use MongoDB 2.6 because their Moped driver enumerates collections via the removed `system.namespaces` collection. Set `MONGOID_VERSION` to select a Mongoid major version and `MONGODB_HOST` to override the default `localhost:27017` when running tests.
 
 ### Install
 

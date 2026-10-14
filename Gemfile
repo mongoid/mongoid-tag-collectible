@@ -1,20 +1,15 @@
-source 'http://rubygems.org'
+source 'https://rubygems.org'
 
 gemspec
 
-case version = ENV['MONGOID_VERSION'] || '~> 5.0'
-when /5/
-  gem 'mongoid', '~> 5.0'
-when /4/
-  gem 'mongoid', '~> 4.0'
-when /3/
-  gem 'mongoid', '~> 3.1'
-else
-  gem 'mongoid', version
-end
+version = ENV['MONGOID_VERSION'] || '9'
+gem 'mongoid', version =~ /\A\d+\z/ ? "~> #{version}.0" : version
+gem 'bigdecimal' if RUBY_VERSION >= '3.4'
+gem 'logger' if RUBY_VERSION >= '3.4'
 
 group :development, :test do
   gem 'rspec'
-  gem 'rake'
-  gem 'rubocop', '0.32.1'
+  gem 'rake', RUBY_VERSION >= '3.0' ? '>= 12' : '< 12'
+  gem 'rubocop', RUBY_VERSION >= '3.0' ? '~> 1.0' : '0.32.1'
+  gem 'simplecov', '~> 0.22' if ENV['COVERAGE'] == 'true'
 end
