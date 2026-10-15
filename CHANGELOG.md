@@ -1,3 +1,7 @@
+### 0.2.4 (Next)
+
+* Your contribution here.
+
 ### 0.2.3 (2026/10/14)
 
 * [#3](https://github.com/mongoid/mongoid-tag-collectible/pull/3): Replace obsolete quality and dependency badges with Coveralls, generate real SimpleCov coverage in one modern CI job, and scope badges to upstream master.
