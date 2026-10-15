@@ -1,6 +1,5 @@
-### 0.2.3 (Next)
+### 0.2.3 (2026/10/14)
 
-* Your contribution here.
 * [#3](https://github.com/mongoid/mongoid-tag-collectible/pull/3): Replace obsolete quality and dependency badges with Coveralls, generate real SimpleCov coverage in one modern CI job, and scope badges to upstream master.
 * [#3](https://github.com/mongoid/mongoid-tag-collectible/pull/3): Modernize CI with GitHub Actions through Ruby 4.0, Mongoid 9, and MongoDB Server 8.0, retaining legacy Mongoid coverage and accounting for modern after-save dirty tracking when updating tag counts.
 
