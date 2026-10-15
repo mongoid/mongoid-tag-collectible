@@ -9,10 +9,6 @@ The Ruby 4.0 CI job measures library line coverage with SimpleCov and submits `c
 
 Easily maintain a collection of `Tag` instances with aggregate counts from your model's `tags`.
 
-### Compatibility
-
-CI tests representative compatible combinations of Mongoid 3 through 9, Ruby 2.3 through 4.0, and MongoDB Server 2.6 through 8.0, including Ruby 4.0 / Mongoid 9 / MongoDB 8.0. See [the test matrix](.github/workflows/test.yml); this is not a Cartesian product of supported versions. Mongoid 3–4 use MongoDB 2.6 because their Moped driver enumerates collections via the removed `system.namespaces` collection. Set `MONGOID_VERSION` to select a Mongoid major version and `MONGODB_HOST` to override the default `localhost:27017` when running tests.
-
 ### Install
 
 Add `mongoid-tag-collectible` to your Gemfile.
