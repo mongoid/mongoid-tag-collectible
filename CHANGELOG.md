@@ -1,5 +1,6 @@
 ### 0.2.4 (Next)
 
+* [#4](https://github.com/mongoid/mongoid-tag-collectible/pull/4): Cover persisted tag replacements and require aliases, and combine coverage from real legacy and modern drivers - [@dblock](https://github.com/dblock).
 * Your contribution here.
 
 ### 0.2.3 (2026/10/14)

@@ -14,7 +14,7 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - { ruby: '2.3.8', mongoid: '3', mongodb: '2.6', bundler: '2.3.26' }
+          - { ruby: '2.3.8', mongoid: '3', mongodb: '2.6', bundler: '2.3.26', coverage: true }
           - { ruby: '2.3.8', mongoid: '4', mongodb: '2.6', bundler: '2.3.26' }
           - { ruby: '2.3.8', mongoid: '5', mongodb: '4.0', bundler: '2.3.26' }
           - { ruby: '2.5.9', mongoid: '6', mongodb: '4.0', bundler: '2.3.26' }
@@ -22,10 +22,10 @@ jobs:
           - { ruby: '3.2', mongoid: '8', mongodb: '6.0', bundler: default }
           - { ruby: '3.3', mongoid: '9', mongodb: '7.0', bundler: default }
           - { ruby: '3.4', mongoid: '9', mongodb: '8.0', bundler: default }
-          - { ruby: '4.0', mongoid: '9', mongodb: '8.0', bundler: default }
+          - { ruby: '4.0', mongoid: '9', mongodb: '8.0', bundler: default, coverage: true }
     env:
       MONGOID_VERSION: ${{ matrix.mongoid }}
-      COVERAGE: ${{ matrix.ruby == '4.0' && 'true' || 'false' }}
+      COVERAGE: ${{ matrix.coverage }}
     services:
       mongodb:
         image: mongo:${{ matrix.mongodb }}
@@ -42,11 +42,23 @@ jobs:
           bundler-cache: true
       - run: bundle exec rake spec
       - name: Report coverage to Coveralls
-        if: matrix.ruby == '4.0'
+        if: matrix.coverage
         uses: coverallsapp/github-action@v2
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           file: coverage/.resultset.json
           format: simplecov
+          parallel: true
+          flag-name: mongoid-${{ matrix.mongoid }}
       - if: matrix.mongoid == '5'
         run: bundle exec rake rubocop
+
+  coverage:
+    needs: test
+    if: ${{ always() && needs.test.result == 'success' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: coverallsapp/github-action@v2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          parallel-finished: true
