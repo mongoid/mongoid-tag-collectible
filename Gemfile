@@ -11,5 +11,5 @@ group :development, :test do
   gem 'rspec'
   gem 'rake', RUBY_VERSION >= '3.0' ? '>= 12' : '< 12'
   gem 'rubocop', RUBY_VERSION >= '3.0' ? '~> 1.0' : '0.32.1'
-  gem 'simplecov', '~> 0.22' if ENV['COVERAGE'] == 'true'
+  gem 'simplecov', RUBY_VERSION < '2.5' ? '~> 0.16.0' : '~> 0.22' if ENV['COVERAGE'] == 'true'
 end

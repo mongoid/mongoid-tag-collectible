@@ -55,6 +55,15 @@ describe Mongoid::TagCollectible::Tag do
       end
     end
   end
+  it 'decrements removed tags and increments replacement tags after saving' do
+    instance = TestTagged.create!(tags: %w(one two))
+    instance.update_attributes!(tags: %w(two three))
+
+    expect(TestTaggedTag.find('one').count).to eq(0)
+    expect(TestTaggedTag.find('two').count).to eq(1)
+    expect(TestTaggedTag.find('three').count).to eq(1)
+  end
+
   describe 'incrementally' do
     before(:each) do
       @instance1 = TestTagged.create!(tags: ['one'])
