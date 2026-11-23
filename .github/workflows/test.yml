@@ -24,6 +24,7 @@ jobs:
           - { ruby: '3.4', mongoid: '9', mongodb: '8.0', bundler: default }
           - { ruby: '4.0', mongoid: '9', mongodb: '8.0', bundler: default, coverage: true }
     env:
+      BUNDLE_BUILD__BSON: --with-cflags=-Wno-error=implicit-function-declaration
       MONGOID_VERSION: ${{ matrix.mongoid }}
       COVERAGE: ${{ matrix.coverage }}
     services:
@@ -50,8 +51,6 @@ jobs:
           format: simplecov
           parallel: true
           flag-name: mongoid-${{ matrix.mongoid }}
-      - if: matrix.mongoid == '5'
-        run: bundle exec rake rubocop
 
   coverage:
     needs: test
