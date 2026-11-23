@@ -3,6 +3,7 @@
 * [#4](https://github.com/mongoid/mongoid-tag-collectible/pull/4): Cover persisted tag replacements and require aliases, and combine coverage from real legacy and modern drivers - [@dblock](https://github.com/dblock).
 * Your contribution here.
 * [#5](https://github.com/mongoid/mongoid-tag-collectible/pull/5): Lint Markdown, YAML, and spelling with rubocop-md, rubocop-prose, rubocop-spellcheck, and rubocop-yaml in a separate Lint workflow, and clean up documentation - [@dblock](https://github.com/dblock).
+* [#6](https://github.com/mongoid/mongoid-tag-collectible/pull/6): Run CI pushes only on the default branch, cancel superseded pull request runs, skip duplicate lint in the test matrix, and bound job times - [@dblock](https://github.com/dblock).
 
 ### 0.2.3 (2026/10/14)
 
